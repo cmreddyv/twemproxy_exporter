@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 const (
@@ -139,7 +140,7 @@ func main() {
 	// expose prometheus endpoint for metrics export
 	errChan := make(chan error)
 	go func() {
-		http.Handle("/metrics", prometheus.Handler())
+		http.Handle("/metrics", promhttp.Handler())
 		err = http.ListenAndServe(":9500", nil)
 		if err != nil {
 			errChan <- err
